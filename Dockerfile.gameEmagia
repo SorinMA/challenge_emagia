@@ -8,11 +8,14 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /var/www/html/
 
-# copiez codul sursa
-COPY ./gameEmagia .
-
 # setup composer
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
+COPY ./gameEmagia/composer.json .
+
 # instaleaza dependency-urile
 RUN composer install
+
+# copiez codul sursa
+COPY ./gameEmagia .
+
