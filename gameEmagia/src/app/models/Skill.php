@@ -1,5 +1,4 @@
 <?php
-
-namespace gameEmagia\app\models;
+namespace appemag\app\models;
 
 ?>

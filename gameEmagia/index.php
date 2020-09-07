@@ -1,5 +1,5 @@
 <?php
-require "../vendor/autoload.php";
+require "vendor/autoload.php";
 use appemag\app\models\Orderus;
 
 $o = new Orderus();
