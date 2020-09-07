@@ -1,11 +1,17 @@
 version: "3.8"
 services:
+    nginx-php:
+        depends_on: 
+            - php-game
+        build:
+            dockerfile: Dockerfile.nginx
+            context: ./nginx
+        ports:
+            - '80:80'
     php-game:
         build:
             dockerfile: Dockerfile.gameEmagia
             context: .
-        ports:
-            - '80:80'
         volumes:
             - /var/www/html/vendor
             - ./gameEmagia:/var/www/html/
