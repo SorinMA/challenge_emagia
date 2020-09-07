@@ -1,0 +1,14 @@
+{
+	"name": "emagia/orederus",
+	"description": "game.",
+	"minimum-stability": "stable",
+	"require": {
+		"phpunit/phpunit": "~8.5.2"
+	},
+	"autoload":
+    {
+		"psr-4": {
+			"appemag\\": "src/"
+		}
+    }
+}

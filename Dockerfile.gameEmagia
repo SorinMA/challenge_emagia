@@ -1,0 +1,18 @@
+# imagine de docker cu php
+FROM php:7.3-apache
+
+RUN apt-get update && apt-get install -y \
+        libzip-dev \
+        zip \
+  && docker-php-ext-install zip
+
+WORKDIR /var/www/html/
+
+# copiez codul sursa
+COPY ./gameEmagia .
+
+# setup composer
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+
+# instaleaza dependency-urile
+RUN composer install
