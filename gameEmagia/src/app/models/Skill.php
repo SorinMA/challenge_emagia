@@ -2,14 +2,14 @@
 namespace appemag\app\models;
 
 use appemag\app\models\Status;
-use appemag\app\models\SkillIdentifier;
+use appemag\app\models\SkillI;
 
 abstract class Skill {
     protected $tip_skill;
     protected $nume_skill;
     protected $sansa;
     
-    abstract public function multiplicator_dmg(): SkillIdentifier;
+    abstract public function multiplicator_dmg(): SkillI;
 
     private function value_formater(int $value): int {
         if ($value < 0) {

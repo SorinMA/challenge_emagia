@@ -1,7 +1,7 @@
 <?php
 namespace appemag\app\models;
 
-class SkillIdentifier {
+class SkillI {
     private $type;
     private $operation;
     private $qunatity;
@@ -12,15 +12,15 @@ class SkillIdentifier {
         $this->qunatity = $qunatity;
     }
 
-    public function get_type(): bool {
+    public function get_type() {
         return $this->type;
     }
 
-    public function get_operation(): int {
+    public function get_operation() {
         return $this->operation;
     }
 
-    public function get_quantity(): int {
+    public function get_quantity() {
         return $this->quantity;
     }
 

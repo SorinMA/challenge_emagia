@@ -1,7 +1,7 @@
 <?php
 namespace appemag\app\models;
 
-use appemag\app\models\SkillIdentifier;
+use appemag\app\models\SkillI;
 use appemag\app\models\Creatura;
 use appemag\app\models\Orderus;
 
@@ -59,19 +59,22 @@ final class Game {
 
     private function get_skills_that_have_chance($skills) {
         $res = array();
+        echo "| Orderus uses this round: ";
         foreach($skills as &$skill) {
             if($this->get_chance_to_hit() <= $skill->get_sansa()) {
+                echo " " . $skill->get_nume() . " ";
                 array_push($res, $skill);
             }
         }
+        echo " |<br>";
         return $res;
     }
 
     private function get_params($skills) {
         // 3 skills indentifiers
-        $X1 = new SkillIdentifier(false, 1, 1);
-        $X2 = new SkillIdentifier(false, 2, 1);
-        $X3 = new SkillIdentifier(false, 3, 0);
+        $X1 = new SkillI(false, 1, 1);
+        $X2 = new SkillI(false, 2, 1);
+        $X3 = new SkillI(false, 3, 0);
 
         foreach($skills as &$skill) {
             $skill_identifier = $skill->multiplicator_dmg();

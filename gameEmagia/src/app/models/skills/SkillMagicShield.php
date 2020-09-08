@@ -3,7 +3,7 @@ namespace appemag\app\models\skills;
 
 use appemag\app\models\Skill;
 use appemag\app\models\Status;
-use appemag\app\models\SkillIdentifier;
+use appemag\app\models\SkillI;
 
 final class SkillMagicShield extends Skill {
     
@@ -20,8 +20,8 @@ final class SkillMagicShield extends Skill {
         return self::$skill;
     }
 
-    public function multiplicator_dmg(): SkillIdentifier {
-        return new SkillIdentifier($this->get_type(), 1, 2);
+    public function multiplicator_dmg(): SkillI {
+        return new SkillI($this->get_type(), 1, 2);
     }
 }
 
