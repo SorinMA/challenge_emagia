@@ -4,8 +4,11 @@ use appemag\app\models\skills\SkillRapidStrike;
 
 final class SkillRapidStrikeTest extends TestCase
 {
-    public function testConstructorsAndGettersAndSetters(): void
+    public function test_class(): void
     {
-        
+        $dummy1 = SkillRapidStrike::get_skill();
+        $dummy2 = SkillRapidStrike::get_skill();
+
+        $this->assertEquals($dummy1, $dummy2);
     }
 }

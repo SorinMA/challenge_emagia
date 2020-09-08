@@ -197,7 +197,7 @@ final class Game {
                 $X1 = $skills_identifier_sumary[0]->get_quantity();
                 $X2 = $skills_identifier_sumary[1]->get_quantity();
                 $X3 = $skills_identifier_sumary[2]->get_quantity();
-
+                
                 // pe baza summaryului se calculeaza dmg ul
                 $dmg = ($this->beast_stats->get_strength() - 
                        $X2 * ($this->orderus_stats->get_defence() + $X3)) / $X1;

@@ -55,11 +55,12 @@ class SkillStats {
     }
 
     public function set_qunatity(float $quantity) {
-        if ($qunatity >= 1) {
-            $this->quantity = $quantity;
-        } else {
+        if ($quantity < 1) {
             $this->quantity = 1;
-        }
+        } else {
+            $this->quantity = $quantity;
+        } 
+        
     }
 
     public function set_type(bool $type) {
