@@ -3,6 +3,17 @@ namespace appemag\app\models;
 use appemag\app\models\Status;
 use appemag\app\models\helpers\HelperValuesFormater;
 
+/**
+ * class: StatusInterval
+ * scope:
+ *  este o structura de date ce are rolul de a manageui intervalele utilizate pentru
+ *  selectia statusurilor
+ * clasa-contine:
+ *  - setteri
+ *  - constructor cu parametri
+ *  - o functie (get_random_status()) ce returneaza un obiect de tipul Status
+ * 
+ */
 class StatusInterval {
     protected $health_low;
     protected $health_high;
@@ -19,6 +30,10 @@ class StatusInterval {
     protected $luck_low;
     protected $luck_high;
 
+    /**
+     * functia genereaza un obiect de tipul Status folosind functia rand
+     * pentru fiecare interval generand o valoare random in acel interval.
+     */
     function get_random_status() : Status {
         $rand_health = rand($this->health_low, $this->health_high);
         $rand_strength = rand($this->strength_low, $this->strength_high);

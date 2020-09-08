@@ -1,4 +1,5 @@
-
+// ignorati asta, este o ciorna din etapa de dev, dar pe care nu o streg pentru ca 
+// are o oarecum incarcatura emotionala :)
 
 RS:
  2 

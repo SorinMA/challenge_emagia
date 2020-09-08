@@ -3,7 +3,16 @@ namespace appemag\app\models;
 
 use appemag\app\models\helpers\HelperValuesFormater;
 
-
+/**
+ * class: Status
+ * scope:
+ *  este o structura de date ce are rolul de a menegui statusul (ca entitate),
+ *  utilizat mai tarziu de catre combatanti.
+ * clasa-contine:
+ *  - setteri si getteri
+ *  - constructor cu parametri
+ *  - o functie (get_status_formated()) ce returneaza, formatat pentru printare statusurile.
+ */
 class Status {
     protected $health;
     protected $strength;
@@ -12,11 +21,11 @@ class Status {
     protected $luck;
 
     function __construct(int $health, int $strength,int $defence,int $speed,int $luck) {
-        $this->health = $health;
-        $this->strength = $strength;
-        $this->defence = $defence;
-        $this->speed = $speed;
-        $this->luck = $luck;
+        $this->set_health($health);
+        $this->set_strength($strength);
+        $this->set_defence($defence);
+        $this->set_speed($speed);
+        $this->set_luck($luck);
     }
 
     public function get_health() : int {
@@ -59,6 +68,10 @@ class Status {
         $this->luck = HelperValuesFormater::value_formater($luck, true);
     }
 
+    /** 
+     * functie ia statusurile si pe baza lor genereaza un string
+     * formatat spre a fi folosit mai tarziu pentru printare.
+     */ 
     public function get_status_formated() {
         return "<h3>" . "Health: " . $this->get_health() . "<br/>" .
                "Strength: " . $this->get_strength() . "<br/>" .

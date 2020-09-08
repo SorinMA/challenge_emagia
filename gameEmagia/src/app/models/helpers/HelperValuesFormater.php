@@ -1,6 +1,14 @@
 <?php
 namespace appemag\app\models\helpers;
 
+/**
+ * class: HelperValuesFormater
+ * scope:
+ *  este o structura de date neinitializabila ce contine cateva functii de validare de input
+ * clasa-contine:
+ *  - functii de validare de input
+ */
+
 final class HelperValuesFormater {
     private function __construct() {} // neinstantiabila
 

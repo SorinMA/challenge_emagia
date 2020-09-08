@@ -6,8 +6,17 @@ use appemag\app\models\Skill;
 use appemag\app\models\skills\SkillMagicShield;
 use appemag\app\models\skills\SkillRapidStrike;
 
+/**
+ * class: Orderus
+ * scope:
+ *  este o structura de date ce extinde forma unei creaturi si adauga optiunea de a avea
+ *  skilluri permitand crearea lui Orderus, marele boss din emagia :))
+ * clasa-contine:
+ *  - getteri si setter pentru skills (optiunea de a agauga noi skilluri)
+ *  - constructor cu parametri
+ */
 class Orderus extends Beast{
-    private $skills = array();
+    protected $skills = array();
     public function __construct(int $health_low, int $health_high,
                                 int $strength_low, int $strength_high,
                                 int $defence_low, int $defence_high,

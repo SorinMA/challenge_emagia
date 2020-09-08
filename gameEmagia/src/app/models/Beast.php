@@ -4,6 +4,15 @@ namespace appemag\app\models;
 use appemag\app\models\StatusInterval;
 use appemag\app\models\Status;
 
+/**
+ * class: Beast
+ * scope:
+ *  este o structura de date ce sedimenteaza forma unei creaturi,
+ *  o creatura standard are doar status.
+ * clasa-contine:
+ *  - getteri
+ *  - constructor cu parametri
+ */
 class Beast {
     private $status;
     public function __construct(int $health_low, int $health_high,
