@@ -1,6 +1,9 @@
 <?php
 namespace appemag\app\models;
 
+use appemag\app\models\helpers\HelperValuesFormater;
+
+
 class Status {
     protected $health;
     protected $strength;
@@ -36,34 +39,33 @@ class Status {
         return $this->luck;
     }
 
-    private function value_formater(int $value, bool $is_luck): int {
-        if ($value < 0) {
-            return 0;
-        }
-        if ($value > 100 && $is_luck) {
-            return 100;
-        }
-        return $value;
-    }
-
     public function set_health(int $health) {
-        $this->health = $this->value_formater($health, false);
+        $this->health = HelperValuesFormater::value_formater($health, false);
     }
 
     public function set_strength(int $strength) {
-        $this->strength = $this->value_formater($strength, false);
+        $this->strength = HelperValuesFormater::value_formater($strength, false);
     }
 
     public function set_defence(int $defence) {
-        $this->defence = $this->value_formater($defence, false);
+        $this->defence = HelperValuesFormater::value_formater($defence, false);
     }
 
     public function set_speed(int $speed) {
-        $this->speed = $this->value_formater($speed, false);
+        $this->speed = HelperValuesFormater::value_formater($speed, false);
     }
 
     public function set_luck(int $luck) {
-        $this->luck = $this->value_formater($luck, false);
+        $this->luck = HelperValuesFormater::value_formater($luck, true);
+    }
+
+    public function get_status_formated() {
+        return "<h3>" . "Health: " . $this->get_health() . "<br/>" .
+               "Strength: " . $this->get_strength() . "<br/>" .
+               "Defence: " . $this->get_defence() . "<br/>" .
+               "Speed: " . $this->get_speed() . "<br/>" .
+               "Luck: " . $this->get_luck() . "<br/>" .
+               "</h3>";
     }
 }
 

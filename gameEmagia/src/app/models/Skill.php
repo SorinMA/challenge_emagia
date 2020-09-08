@@ -2,43 +2,33 @@
 namespace appemag\app\models;
 
 use appemag\app\models\Status;
-use appemag\app\models\SkillI;
+use appemag\app\models\SkillStats;
+use appemag\app\models\helpers\HelperValuesFormater;
 
 abstract class Skill {
-    protected $tip_skill;
-    protected $nume_skill;
-    protected $sansa;
+    protected $type_skill;
+    protected $name_skill;
+    protected $chance;
     
-    abstract public function multiplicator_dmg(): SkillI;
+    abstract public function dmg_multiplier(): SkillStats;
+    abstract static public function get_skill():Skill;
 
-    private function value_formater(int $value): int {
-        if ($value < 0) {
-            return 0;
-        }
-        if ($value > 100) {
-            return 100;
-        }
-        return $value;
-    }
-
-    protected function __construct(bool $tip_skill, string $nume_skill, int $sansa) {
-        $this->tip_skill = $tip_skill;
-        $this->nume_skill = $nume_skill;
-        $this->sansa = $this->value_formater($sansa);
+    protected function __construct(bool $type_skill, string $name_skill, int $chance) {
+        $this->type_skill = $type_skill;
+        $this->name_skill = $name_skill;
+        $this->chance = HelperValuesFormater::value_formater($chance, true);
     }
 
     public function get_type(): bool {
-        return $this->tip_skill;
+        return $this->type_skill;
     }
 
-    public function get_nume(): string {
-        return $this->nume_skill;
+    public function get_name(): string {
+        return $this->name_skill;
     }
 
-    public function get_sansa(): int {
-        return $this->sansa;
+    public function get_chance(): int {
+        return $this->chance;
     }
-
-    abstract static public function get_skill():Skill;
 }
 ?>

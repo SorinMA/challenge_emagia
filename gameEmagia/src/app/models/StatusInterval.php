@@ -1,6 +1,7 @@
 <?php
 namespace appemag\app\models;
 use appemag\app\models\Status;
+use appemag\app\models\helpers\HelperValuesFormater;
 
 class StatusInterval {
     protected $health_low;
@@ -32,11 +33,11 @@ class StatusInterval {
                          int $defence_low, int $defence_high,
                          int $speed_low, int $speed_high,
                          int $luck_low, int $luck_high) {
-        $health = $this->interval_formater($health_low, $health_high, false);
-        $strength = $this->interval_formater($strength_low, $strength_high, false);
-        $defence = $this->interval_formater($defence_low, $defence_high, false);
-        $speed = $this->interval_formater($speed_low, $speed_high, false);
-        $luck = $this->interval_formater($luck_low, $luck_high, true);
+        $health = HelperValuesFormater::interval_formater($health_low, $health_high, false);
+        $strength = HelperValuesFormater::interval_formater($strength_low, $strength_high, false);
+        $defence = HelperValuesFormater::interval_formater($defence_low, $defence_high, false);
+        $speed = HelperValuesFormater::interval_formater($speed_low, $speed_high, false);
+        $luck = HelperValuesFormater::interval_formater($luck_low, $luck_high, true);
         
         $this->set_health($health[0], $health[1]);
         $this->set_strength($strength[0], $strength[1]);
@@ -45,25 +46,7 @@ class StatusInterval {
         $this->set_luck($luck[0], $luck[1]);
 
     }
-
-    private function value_formater(int $value, bool $is_luck): int {
-        if ($value < 0) {
-            return 0;
-        }
-        if ($value > 100 && $is_luck) {
-            return 100;
-        }
-        return $value;
-    }
-
-    private function interval_formater(int $value_low, int $value_high, bool $is_luck) {
-        $value_low = $this->value_formater($value_low, $is_luck);
-        $value_high = $this->value_formater($value_high, $is_luck);
-        if ($value_low > $value_high) {
-            $value_low = $value_high - 1;
-        }
-        return array($value_low, $value_high);
-    }
+    
     protected function set_health(int $low, int $high) {
         $this->health_low = $low;
         $this->health_high = $high;

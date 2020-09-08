@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+    php-game-test:
+        build:
+            dockerfile: Dockerfile.gameEmagia
+            context: .
+        volumes:
+            - /var/www/html/vendor
+            - ./gameEmagia:/var/www/html/
+        command: ["./vendor/bin/phpunit", "tests"]
+    
+

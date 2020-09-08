@@ -4,7 +4,7 @@ namespace appemag\app\models;
 use appemag\app\models\StatusInterval;
 use appemag\app\models\Status;
 
-class Creatura {
+class Beast {
     private $status;
     public function __construct(int $health_low, int $health_high,
                                 int $strength_low, int $strength_high,

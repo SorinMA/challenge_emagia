@@ -1,25 +1,24 @@
 <?php
 namespace appemag\app\models;
 
-use appemag\app\models\SkillI;
-use appemag\app\models\Creatura;
+use appemag\app\models\SkillStats;
+use appemag\app\models\Beast;
 use appemag\app\models\Orderus;
 
 
 final class Game {
 
-    private $orderus_stats;
-    private $orderus_skills_atack;
-    private $orderus_skills_protec;
-    private $creatura_stats;
-    private $start_orderus;
-    private $turns = 20;
+    protected $orderus_stats;
+    protected $orderus_skills_atack;
+    protected $orderus_skills_protec;
+    protected $beast_stats;
+    protected $start_orderus;
+    protected $turns = 20;
 
-    public function __construct(Orderus $orderus, Creatura $creatura) {
+    public function __construct(Orderus $orderus, Beast $beast) {
         $this->orderus_stats = $orderus->get_status();
-        // nu uita .get_skills() l;a orderus
-        $this->creatura_stats = $creatura->get_status();
-
+        $this->beast_stats = $beast->get_status();
+        
         // extract skills
 
         $skills = $orderus->get_skills();
@@ -38,9 +37,17 @@ final class Game {
         $this->start_game();
     }
 
+    public function get_orderus_stats() {
+        return $this->orderus_stats;
+    }
+
+    public function get_beast_stats() {
+        return $this->beast_stats;
+    }
+
     private function who_is_first() {
         $orderus_speed = $this->orderus_stats->get_speed();
-        $creatura_speed = $this->creatura_stats->get_speed();
+        $creatura_speed = $this->beast_stats->get_speed();
 
         $orderus_luck = $this->orderus_stats->get_luck();
         $creatura_luck = $this->orderus_stats->get_luck();
@@ -59,35 +66,37 @@ final class Game {
 
     private function get_skills_that_have_chance($skills) {
         $res = array();
-        echo "| Orderus uses this round: ";
+        $skills_string = "";
         foreach($skills as &$skill) {
-            if($this->get_chance_to_hit() <= $skill->get_sansa()) {
-                echo " " . $skill->get_nume() . " ";
+            if($this->get_chance_to_hit() <= $skill->get_chance()) {
+                $skills_string = $skills_string . $skill->get_name() . "; ";
                 array_push($res, $skill);
             }
         }
-        echo " |<br>";
+        if ($skills_string != "") {
+            echo "<h4 style='color:brown'>  Orderus uses this round: " . $skills_string . ' </h4> </br>';
+        }
         return $res;
     }
 
     private function get_params($skills) {
         // 3 skills indentifiers
-        $X1 = new SkillI(false, 1, 1);
-        $X2 = new SkillI(false, 2, 1);
-        $X3 = new SkillI(false, 3, 0);
-
-        foreach($skills as &$skill) {
-            $skill_identifier = $skill->multiplicator_dmg();
+        $X1 = new SkillStats(false, 1, 1);
+        $X2 = new SkillStats(false, 2, 1);
+        $X3 = new SkillStats(false, 3, 0);
+        
+        foreach($skills as $skill) {
+            $skill_identifier = $skill->dmg_multiplier();
 
             $operation = $skill_identifier->get_operation();
             $quantity = $skill_identifier->get_quantity();
-
+            
             if ($operation == 1) {
-                $X1->set_qunatity($X1->get_quantity() + $quantity);
+                $X1->set_qunatity($X1->get_quantity() * $quantity);
             }
 
             if ($operation == 2) {
-                $X2->set_qunatity($X2->get_quantity() + $quantity);
+                $X2->set_qunatity($X2->get_quantity() * $quantity);
             }
 
             if ($operation == 3) {
@@ -102,59 +111,62 @@ final class Game {
     private function runda() : bool {
         $chance = $this->get_chance_to_hit();
         echo '<br/>';
-        echo "Runda:" . $this->turns . "!";
+        echo "<h3 style='color:green'>Round: " . (21 - $this->turns) . " -------------- </h3>";
 
         if ($this->start_orderus) {
-            if ($chance > $this->creatura_stats->get_luck()) {
+            echo "<br/><h4 style='color:green'>Orderus will attack!</h4><br/>";
+            if ($chance > $this->beast_stats->get_luck()) {
                 $atack_skills = $this->get_skills_that_have_chance($this->orderus_skills_atack);
                 
                 $skills_identifier_sumary = $this->get_params($atack_skills);
                 
-                $X1 = $skills_identifier_sumary[0];
-                $X2 = $skills_identifier_sumary[1];
-                $X3 = $skills_identifier_sumary[2];
+                $X1 = $skills_identifier_sumary[0]->get_quantity();
+                $X2 = $skills_identifier_sumary[1]->get_quantity();
+                $X3 = $skills_identifier_sumary[2]->get_quantity();
 
-                echo "creatura hp go from" . $this->creatura_stats->get_health() . '->';
+                
                 $dmg = $X1 * ($X2 * ($this->orderus_stats->get_strength() + $X3) - 
-                       $this->creatura_stats->get_defence());
-                $new_health = $this->creatura_stats->get_health() - 
-                              ($dmg >= 0 ? $dmg : 0);;
-                $this->creatura_stats->set_health($new_health);
-                echo " to " . $new_health ;
+                       $this->beast_stats->get_defence());
+                $new_health = $this->beast_stats->get_health() - 
+                              ($dmg >= 0 ? $dmg : 0);
+                echo "<h4 style='color:red'>(dmg dealt: " . ($dmg >= 0 ? $dmg : 0) . ") beast hp go from " . $this->beast_stats->get_health() . ' -> ';
+                $this->beast_stats->set_health($new_health);
+                echo " to " . $new_health . "</h4>";
                 if ($new_health <= 0) {
                     echo '<br/>';
                     echo '<br/>';   
-                    echo "win orderus";
+                    echo "<h1 style='color:blue'>OrderUs WON</h1>";;
                     return true;
                 }
             } else {
-                echo "orderus hit miss";
+                echo "<h4 style='color:cyan'>OrderUs missed the attack!</h4>";
             }
 
         } else {
+            echo "<br/><h4 style='color:green'>THE Beast will attack!</h4><br/>";
             if ($chance > $this->orderus_stats->get_luck()) {
                 $protec_skills = $this->get_skills_that_have_chance($this->orderus_skills_protec);
                 $skills_identifier_sumary = $this->get_params($protec_skills);
                 
-                $X1 = $skills_identifier_sumary[0];
-                $X2 = $skills_identifier_sumary[1];
-                $X3 = $skills_identifier_sumary[2];
-
-                echo "orderus hp go from" . $this->orderus_stats->get_health() . '->';
-                $dmg = $X1 * ($this->creatura_stats->get_strength()) - 
-                       $X2 * ($this->orderus_stats->get_defence() + $X3);
+                $X1 = $skills_identifier_sumary[0]->get_quantity();
+                $X2 = $skills_identifier_sumary[1]->get_quantity();
+                $X3 = $skills_identifier_sumary[2]->get_quantity();
+                echo " " . $X1;
+                $dmg = ($this->beast_stats->get_strength() - 
+                       $X2 * ($this->orderus_stats->get_defence() + $X3)) / $X1;
                 $new_health = $this->orderus_stats->get_health() - 
                               ($dmg >= 0 ? $dmg : 0);
+                              echo "<h4 style='color:blue'>(dmg dealt: " . ($dmg >= 0 ? $dmg : 0) . ") orderus hp go from " . $this->orderus_stats->get_health() . ' -> ';
                 $this->orderus_stats->set_health($new_health);
-                echo " to " . $new_health ;
+                echo " to " . $new_health . "</h4>";
                 if ($new_health <= 0) {
                     echo '<br/>';
                     echo '<br/>';
-                    echo "win creatura";
+                    echo "<h1 style='color:red'>Beast WON :(</h1>";
                     return true;
                 }
             } else {
-                echo "creatura hit miss";
+                echo "<h4 style='color:pirple'>THE Beast missed the attack!</h4>";
             }
 
         }
@@ -166,18 +178,18 @@ final class Game {
 
     private function final_joc() {
         if ($this->turns == 0) {
-            echo "EQ";
+            echo "<h2 style='color:yellow'> TIE </h2>";
         } else {
-            echo "WINER";
+            echo "<h2 style='color:green'>-- Game Over -- </h2>";
         }
     }
 
     private function start_game() {
-        echo "--------<br>";
-        var_dump($this->orderus_skills_atack);
-        echo "<br>";
-        var_dump($this->orderus_skills_protec);
-        echo "<br>------<br>";
+        echo "<h1> Orderus stats: </h1><br>";
+        echo $this->get_orderus_stats()->get_status_formated();
+
+        echo "<h1> THE Beast stats: </h1><br>";
+        echo $this->get_beast_stats()->get_status_formated();
         while (true) {
             $info_runda = $this->runda();
             

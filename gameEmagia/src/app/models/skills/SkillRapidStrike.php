@@ -2,7 +2,7 @@
 namespace appemag\app\models\skills;
 
 use appemag\app\models\Skill;
-use appemag\app\models\SkillI;
+use appemag\app\models\SkillStats;
 
 class SkillRapidStrike extends Skill {
     
@@ -19,8 +19,8 @@ class SkillRapidStrike extends Skill {
         return self::$skill;
     }
 
-    public function multiplicator_dmg(): SkillI {
-        return new SkillI($this->get_type(), 1, 2); // 1X 2* 3+
+    public function dmg_multiplier(): SkillStats {
+        return new SkillStats($this->get_type(), 1, 2); // 1X 2* 3+
     }
 }
 
