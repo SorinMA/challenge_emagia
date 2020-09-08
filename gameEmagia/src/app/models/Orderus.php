@@ -2,8 +2,11 @@
 namespace appemag\app\models;
 
 use appemag\app\models\Creatura;
+use appemag\app\models\skills\SkillMagicShield;
+use appemag\app\models\skills\SkillRapidStrike;
 
 class Orderus extends Creatura{
+    private $skills;
     public function __construct(int $health_low, int $health_high,
                                 int $strength_low, int $strength_high,
                                 int $defence_low, int $defence_high,
@@ -15,7 +18,11 @@ class Orderus extends Creatura{
                             $defence_low, $defence_high,
                             $speed_low, $speed_high,
                             $luck_low, $luck_high);
+        $this->skills = array(SkillMagicShield::get_skill(), SkillRapidStrike::get_skill());
     }
-    # skilss !!!
+
+    public function get_skills() {
+        return $this->skills;
+    }
 }
 ?>

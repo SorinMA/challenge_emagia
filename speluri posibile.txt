@@ -1,0 +1,54 @@
+
+
+RS:
+ 2 
+ dmg_ml(stre, de, he) : int (dmg primit) {
+    return 2 * (stre - de)
+}
+RSX:
+ 4 atacuri
+AS:
+ 2*strength
+ dmg_ml(stre, de, he) : int (dmg primit) {
+    return (2*stre - de)
+}
+ASX:
+ 4*strength
+SS:
+ strength + 10
+ dmg_ml(stre, de, he) : int (dmg primit) {
+    return (stre + 10 - de)
+}
+
+
+MS:
+ 1/2 atacuri
+ dmg_ml(stre, de, he) : int (dmg primit) {
+    return 1/2 * (stre - de)
+}
+
+MSX:
+ 1/6 atacuri
+
+DD:
+ 2 * defence
+ dmg_ml(stre, de, he) : int (dmg primit) {
+    return  (stre - 2*de)
+}
+DT:
+ defence + 10
+ dmg_ml(stre, de, he) : int (dmg primit) {
+    return -10+ (stre - de)
+}
+
+HX:
+ health + 10
+
+SX:
+ diferenta dinre vieti daca tu ai mai mult
+
+dmg_ml(stre, de, he) : int (dmg primit) {
+    return 
+}
+
+

@@ -3,27 +3,25 @@ namespace appemag\app\models\skills;
 
 use appemag\app\models\Skill;
 use appemag\app\models\Status;
+use appemag\app\models\SkillIdentifier;
 
 final class SkillMagicShield extends Skill {
+    
+    protected static $skill = null;
+
     protected function __construct() {
         parent::__construct(false, "Magic Shield", 20);
     }
-    public function get_skill() : Skill {
-        if(!isset($this->Skill)) {
-            $this->Skill = new SkillMagicShield();
+    public static function get_skill() : Skill {
+        if(self::$skill == null) {
+            self::$skill = new SkillMagicShield();
         }
 
-        return $this->Skill;
+        return self::$skill;
     }
 
-    public function multiplicator_dmg(int $multiplicator_atac, Status $atacator, Status $atacat): Status {
-        $atacat_health = $atacat::get_health();
-        $atacat_defence = $atacat::get_defence();
-
-        $atacator_strength = $atacator::get_strength();
-
-        multiplicator_atac*(s - d)
-        return new Status($atacat_health, $atacat::get_strength(), $atacat_defence, $atacat::get_speed(), $atacat::get_luck());
+    public function multiplicator_dmg(): SkillIdentifier {
+        return new SkillIdentifier($this->get_type(), 1, 2);
     }
 }
 
